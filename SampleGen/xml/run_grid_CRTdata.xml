@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+<!-- Production Project -->
+<!-- Takes about 2.5 minues to run on a single gsimple file -->
+
+<!DOCTYPE project [
+<!ENTITY release "v10_04_03">
+<!ENTITY releasetag "e26:prof">
+<!ENTITY name "AnalysisWorkshopCRTData">
+<!ENTITY date "0226">
+<!ENTITY run "18250">
+<!ENTITY flux_config "H">
+<!ENTITY file_type "data">
+<!ENTITY run_type "physics">
+<!ENTITY user "jiaoyang">
+<!ENTITY PNFSpath "/pnfs/sbnd/resilient/users/jiaoyang/">
+]>
+
+<project name="&name;_&date;_&run;">
+
+  <!-- Group -->
+  <group>sbnd</group>
+
+  <!-- Project size -->
+  <numevents>-1</numevents><!--40000000-->
+
+  <!-- Batch resources -->
+  <resource>DEDICATED,OPPORTUNISTIC,OFFSITE</resource> <!---->
+  <blacklist>SU-ITS,UConn-HPC,RAL</blacklist>
+
+  <!-- Larsoft information -->
+  <larsoft>
+    <tag>&release;</tag>
+    <qual>&releasetag;</qual>
+  </larsoft>
+
+  <!-- Project stages -->
+  <stage name="CRTDataProcessReco">
+    <inputlist>/exp/sbnd/app/users/jiaoyang/AnalysisWorkshop_v10_04_03/work_dir/ListOfDataSample/List_run_18250_OffBeamZero_file</inputlist> 
+    <fcl>run_crt_ptb_tdc_decoder_sbnd.fcl</fcl>    
+    <fcl>run_crtreco_data.fcl</fcl>
+    <fcl>run_crtana_data.fcl</fcl>
+    <outdir>/pnfs/sbnd/scratch/users/&user;/&name;/&release;/&name;_&date;/run_&run;/reco/outdir</outdir>
+    <workdir>/pnfs/sbnd/scratch/users/&user;/&name;/&release;/&name;_&date;/run_&run;/reco/workdir</workdir>
+    <logdir>/pnfs/sbnd/scratch/users/&user;/&name;/&release;/&name;_&date;/run_&run;/reco/logdir</logdir>
+    <numjobs>2147</numjobs> <!-- 20 -->
+    <datatier>generated</datatier>
+    <memory>2500</memory>
+    <jobsub> --expected-lifetime=12h -Q --generate-email-summary -l +SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\" --append_condor_requirements='(TARGET.HAS_SINGULARITY=?=true)' </jobsub>
+    <disk>20GB</disk>
+    <defname>&name;_&date;</defname>
+  </stage>
+
+
+  <stage name="CRTDataAnalyzer">
+    <inputlist>/exp/sbnd/app/users/jiaoyang/AnalysisWorkshop_v10_04_03/work_dir/ListOfDataSample/run_18250_OffBeamZero_file_small.list</inputlist> 
+    <fcl>run_crt_ptb_tdc_decoder_sbnd.fcl</fcl>    
+    <fcl>run_crtreco_data.fcl</fcl>
+    <fcl>run_crtana_data.fcl</fcl>
+    <outdir>/pnfs/sbnd/scratch/users/&user;/&name;/&release;/&name;_&date;/&run;/analyzer/outdir</outdir>
+    <workdir>/pnfs/sbnd/scratch/users/&user;/&name;/&release;/&name;_&date;/&run;/analyzer/workdir</workdir>
+    <logdir>/pnfs/sbnd/scratch/users/&user;/&name;/&release;/&name;_&date;/&run;/analyzer/logdir</logdir>
+    <numjobs>50</numjobs> <!-- 20 -->
+    <datatier>generated</datatier>
+    <memory>2500</memory>
+    <jobsub> --expected-lifetime=12h -Q --generate-email-summary -l +SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\" --append_condor_requirements='(TARGET.HAS_SINGULARITY=?=true)' </jobsub>
+    <disk>20GB</disk>
+    <defname>&name;_&date;</defname>
+  </stage>
+
+  <!-- file type -->
+  <filetype>&file_type;</filetype>
+
+  <!-- run type -->
+  <runtype>&run_type;</runtype>
+
+</project>
