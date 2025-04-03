@@ -15,7 +15,7 @@ void PlotTimingDiff(int run = 18250, std::string fileDir = "/pnfs/sbnd/persisten
     std::map<int, double> t1_module_delay_map; // delay map for each module
     readDelayMap(t1_module_delay_map, "/exp/sbnd/app/users/jiaoyang/AnalysisWorkshop_v10_04_03/work_dir/Delay/delays_t1.txt");
 
-    std::string filename = Form("run%i_new", run); // "/exp/sbnd/app/users/jiaoyang/AnalysisWorkshop_v10_04_03/test_dir/crtana_sbnd.root";
+    std::string filename = Form("run%i_small", run); // "/exp/sbnd/app/users/jiaoyang/AnalysisWorkshop_v10_04_03/test_dir/crtana_sbnd.root";
 
     TFile *f = new TFile(Form("%s%s.root", fileDir.c_str(), filename.c_str()));
     TTree *tree = (TTree *)f->Get("crtana/tree");
